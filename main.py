@@ -102,12 +102,16 @@ while True:
                 print("A lista está vazia.")
                 
         elif opcao == "3":
-            if EMAILS:
-                print("Lista de E-Mails:")
-                for email in EMAILS:
-                    print("    + {}".format(email))
-            else:
-                print("A lista está vazia.")
+            try:
+                if EMAILS:
+                    print("Lista de E-Mails:")
+                    for email in EMAILS:
+                        print("    ◽ {}".format(email))
+                else:
+                    print("A lista está vazia.")
+            except Exception as error:
+                print("ERRO: Alguma coisa está errada!")
+                print(error)
                 
         elif opcao == "4":
             print()
