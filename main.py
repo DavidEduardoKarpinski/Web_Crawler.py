@@ -3,12 +3,14 @@
 #Developed by DEK
 #Contato: wafw00f@outlook.com
 #LINK TRACKER
+import re
 
 import requests
 from bs4 import BeautifulSoup
 
 TO_CRAWL = []
 CRAWLED = set()
+EMAILS = []
 
 
 while True:
@@ -19,7 +21,8 @@ while True:
         print("Opções:")
         print("1 - Fazer o Crawling em uma URL")
         print("2 - Exibir minha lista CRAWLED")
-        print("3 - Acessar Manual e Menu Info")
+        print("3 - Exibir minha lista EMAILS")
+        print("4 - Acessar Manual e Menu Info")
         print("0 - Sair")
         print("----------------------------------------------------------")
         print()
@@ -53,9 +56,19 @@ while True:
                             TO_CRAWL.append(link)
                 CRAWLED.add(url)
                 print("Crawling {}".format(url))
+                
+                emails = get_emails(html)
+                for email in emails:
+                    if email not in EMAILS:
+                        print(email)
+                        EMAILS.append(email)
             else:
                 print("Done")
                 break
+                
+    def get_emails(html):
+        emails = re.findall(r"\w[\w\,]+\w@\w[\w\.]+\w", html)
+        return emails
 
 
     if __name__ == "__main__":
@@ -89,6 +102,14 @@ while True:
                 print("A lista está vazia.")
                 
         elif opcao == "3":
+            if EMAILS:
+                print("Lista de E-Mails:")
+                for email in EMAILS:
+                    print("    + {}".format(email))
+            else:
+                print("A lista está vazia.")
+                
+        elif opcao == "4":
             print()
             print("Obrigado por utilizar web_crawler.py!")
             print("License: None; Public Domain. Developed by DEK.")
@@ -96,6 +117,8 @@ while True:
             print("Para utilizá-la, basta passarmos a URL a qual desejamos fazer o Web Crawler, e o User-Agent.")
             print("Exemplo: http://exemplo.com, Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101 Firefox/95.0")
             print()
+            print("Além de nos trazer os links de uma URL, \nesta ferramenta nos traz todos os endereços de e-mail presentes em uma página web, por exemplo.")
+            print("Recomenda-se rodá-la em uma IDE, como por exemplo VS Code, PyCharm ou Jupyter.")
             print("Contato: wafw00f@outlook.com")
             
         elif opcao == "0":
